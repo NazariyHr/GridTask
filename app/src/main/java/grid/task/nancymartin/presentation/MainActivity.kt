@@ -7,15 +7,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import grid.task.nancymartin.presentation.common.theme.MainBgColor
-import grid.task.nancymartin.presentation.common.theme.GridTaskTheme
 import dagger.hilt.android.AndroidEntryPoint
+import grid.task.nancymartin.presentation.common.theme.GridTaskTheme
+import grid.task.nancymartin.presentation.navigation.AppNavigationRoot
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -41,7 +39,6 @@ class MainActivity : ComponentActivity() {
                 Content(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(color = MainBgColor)
                 )
             }
         }
@@ -50,10 +47,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Content(modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello!",
-        modifier = modifier
-    )
+    AppNavigationRoot(modifier = modifier)
 }
 
 @Preview(showBackground = true)
@@ -61,9 +55,7 @@ fun Content(modifier: Modifier = Modifier) {
 fun ContentPreview() {
     GridTaskTheme {
         Content(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = MainBgColor)
+            modifier = Modifier.fillMaxSize()
         )
     }
 }
