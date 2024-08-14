@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "TodoList"
+rootProject.name = "GridTask"
 include(":app")

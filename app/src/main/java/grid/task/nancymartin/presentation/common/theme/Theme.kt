@@ -1,4 +1,4 @@
-package com.todo.list.presentation.common.theme
+package grid.task.nancymartin.presentation.common.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
@@ -11,7 +11,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun TodoListTheme(
+fun GridTaskTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(

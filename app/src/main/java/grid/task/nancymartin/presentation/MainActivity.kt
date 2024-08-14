@@ -1,4 +1,4 @@
-package com.todo.list.presentation
+package grid.task.nancymartin.presentation
 
 import android.graphics.Color
 import android.os.Build
@@ -13,8 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.todo.list.presentation.common.theme.MainBgColor
-import com.todo.list.presentation.common.theme.TodoListTheme
+import grid.task.nancymartin.presentation.common.theme.MainBgColor
+import grid.task.nancymartin.presentation.common.theme.GridTaskTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            TodoListTheme {
+            GridTaskTheme {
                 Content(
                     modifier = Modifier
                         .fillMaxSize()
@@ -59,7 +59,7 @@ fun Content(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun ContentPreview() {
-    TodoListTheme {
+    GridTaskTheme {
         Content(
             modifier = Modifier
                 .fillMaxSize()

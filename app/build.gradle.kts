@@ -10,11 +10,11 @@ plugins {
 }
 
 android {
-    namespace = "com.todo.list"
+    namespace = "grid.task.nancymartin"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.todo.list"
+        applicationId = "grid.task.nancymartin"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

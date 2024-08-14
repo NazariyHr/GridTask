@@ -1,4 +1,4 @@
-package com.todo.list.presentation.common.theme
+package grid.task.nancymartin.presentation.common.theme
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -70,7 +70,7 @@ fun ColorsList(
 @Preview
 @Composable
 private fun ColorsListPreview() {
-    TodoListTheme {
+    GridTaskTheme {
         ColorsList()
     }
 }
