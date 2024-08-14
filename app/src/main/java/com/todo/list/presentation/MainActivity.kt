@@ -27,13 +27,13 @@ class MainActivity : ComponentActivity() {
                 Color.TRANSPARENT
             ),
             navigationBarStyle = SystemBarStyle.auto(
-                Color.rgb(82, 192, 206),
-                Color.rgb(82, 192, 206)
+                Color.rgb(177, 234, 242),
+                Color.rgb(177, 234, 242)
             )
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             window.isNavigationBarContrastEnforced = false
-            this@MainActivity.window.navigationBarColor = Color.rgb(82, 192, 206)
+            this@MainActivity.window.navigationBarColor = Color.rgb(177, 234, 242)
         }
 
         setContent {
