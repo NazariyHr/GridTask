@@ -27,7 +27,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
-import grid.task.nancymartin.domain.utils.convertMillisToDate
+import grid.task.nancymartin.domain.utils.toFormattedDate
 import grid.task.nancymartin.presentation.common.theme.GridTaskTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,9 +37,7 @@ fun DatePickerDocked(
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
-    val selectedDate = datePickerState.selectedDateMillis?.let {
-        convertMillisToDate(it)
-    } ?: ""
+    val selectedDate = datePickerState.selectedDateMillis?.toFormattedDate() ?: ""
 
     Box(
         modifier = Modifier.fillMaxWidth()

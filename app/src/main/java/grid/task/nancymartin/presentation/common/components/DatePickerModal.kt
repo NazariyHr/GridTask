@@ -14,7 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import grid.task.nancymartin.domain.utils.convertMillisToDate
+import grid.task.nancymartin.domain.utils.toFormattedDate
 import grid.task.nancymartin.presentation.common.theme.GridTaskTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -27,7 +27,7 @@ fun DatePickerModal(
     val datePickerState = rememberDatePickerState()
     val headline by remember {
         derivedStateOf {
-            datePickerState.selectedDateMillis?.let { convertMillisToDate(it) } ?: title
+            datePickerState.selectedDateMillis?.toFormattedDate() ?: title
         }
     }
 

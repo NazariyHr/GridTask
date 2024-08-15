@@ -59,7 +59,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import grid.task.nancymartin.R
-import grid.task.nancymartin.domain.utils.convertMillisToDate
+import grid.task.nancymartin.domain.utils.toFormattedDate
 import grid.task.nancymartin.presentation.common.components.DatePickerModal
 import grid.task.nancymartin.presentation.common.components.MainScreensLayout
 import grid.task.nancymartin.presentation.common.components.TimePickerDialogDial
@@ -117,7 +117,7 @@ private fun CreateTaskScreen(
     }
     val startDateStr by remember {
         derivedStateOf {
-            startDate?.let { convertMillisToDate(it) }.orEmpty()
+            startDate?.toFormattedDate().orEmpty()
         }
     }
     var startTime by rememberSaveable {
@@ -143,7 +143,7 @@ private fun CreateTaskScreen(
     }
     val endDateStr by remember {
         derivedStateOf {
-            endDate?.let { convertMillisToDate(it) }.orEmpty()
+            endDate?.toFormattedDate().orEmpty()
         }
     }
     var endTime by rememberSaveable {
