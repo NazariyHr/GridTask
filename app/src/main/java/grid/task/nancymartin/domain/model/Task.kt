@@ -10,5 +10,6 @@ data class Task(
     val description: String,
     val startTime: Long,
     val endTime: Long,
-    val list: String
+    val list: String,
+    val done: Boolean
 ) : Parcelable

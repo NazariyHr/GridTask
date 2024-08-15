@@ -12,7 +12,8 @@ data class TaskEntity(
     val description: String,
     val startTime: Long,
     val endTime: Long,
-    val list: String
+    val list: String,
+    val done: Boolean
 )
 
 fun TaskEntity.toTask(): Task {
@@ -22,7 +23,8 @@ fun TaskEntity.toTask(): Task {
         description = description,
         startTime = startTime,
         endTime = endTime,
-        list = list
+        list = list,
+        done = done
     )
 }
 
@@ -33,6 +35,7 @@ fun Task.toRateEntity(): TaskEntity {
         description = description,
         startTime = startTime,
         endTime = endTime,
-        list = list
+        list = list,
+        done = done
     )
 }

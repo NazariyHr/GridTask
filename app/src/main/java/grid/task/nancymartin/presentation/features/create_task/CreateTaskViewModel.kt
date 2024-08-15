@@ -52,7 +52,8 @@ class CreateTaskViewModel @Inject constructor(
                             description = action.description,
                             startTime = action.startTime,
                             endTime = action.endTime,
-                            list = action.list
+                            list = action.list,
+                            done = false
                         )
                     )
                 }

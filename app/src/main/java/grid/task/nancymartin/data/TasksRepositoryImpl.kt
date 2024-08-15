@@ -20,9 +20,13 @@ class TasksRepositoryImpl(
         tasksDatabase.taskDao.delete(task.toRateEntity())
     }
 
+    override suspend fun changeTaskIsDone(task: Task, isDone: Boolean) {
+        tasksDatabase.taskDao.update(task.toRateEntity().copy(done = isDone))
+    }
+
     override fun getAllTasksFlow(): Flow<List<Task>> =
         tasksDatabase.taskDao.getAllFlow().distinctUntilChanged()
-            .map { taskEntities -> taskEntities.map { taskEntity -> taskEntity.toTask() } }
+            .map { taskEntities -> taskEntities.map { taskEntity -> taskEntity.toTask() }.sortedBy { it.done } }
 
     override fun getAllListsFlow(): Flow<List<String>> =
         tasksDatabase.taskDao.getAllListsFlow().distinctUntilChanged()

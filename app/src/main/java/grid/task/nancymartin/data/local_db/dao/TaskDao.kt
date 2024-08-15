@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import grid.task.nancymartin.data.local_db.entity.TaskEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -14,6 +15,9 @@ interface TaskDao {
 
     @Delete
     suspend fun delete(task: TaskEntity)
+
+    @Update
+    suspend fun update(task: TaskEntity)
 
     @Query("select * from taskentity ORDER BY startTime desc")
     fun getAllFlow(): Flow<List<TaskEntity>>
