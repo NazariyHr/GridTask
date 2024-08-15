@@ -28,8 +28,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import grid.task.nancymartin.domain.model.Task
 import grid.task.nancymartin.presentation.common.components.MainScreensLayout
+import grid.task.nancymartin.presentation.common.components.SelectableTextField
 import grid.task.nancymartin.presentation.common.modifiers.safeSingleClick
 import grid.task.nancymartin.presentation.common.theme.ColorCian
+import grid.task.nancymartin.presentation.common.theme.ColorDarkContainers
 import grid.task.nancymartin.presentation.common.theme.GridTaskTheme
 import grid.task.nancymartin.presentation.common.theme.TextColorForHeadLinesAndDisplay
 import grid.task.nancymartin.presentation.features.tasks.components.GroupedTasksItem
@@ -63,10 +65,25 @@ private fun TasksScreen(
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(
-                text = state.title,
-                style = MaterialTheme.typography.headlineMedium
+            SelectableTextField(
+                selectedValueStr = state.filteringList,
+                label = "",
+                options = state.lists,
+                onValueChange = { newValue ->
+                    onAction(TasksScreenAction.ChangeFilteringList(newValue))
+                },
+                optionsBackgroundColor = ColorDarkContainers,
+                optionContent = { option ->
+                    Text(
+                        text = option,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                },
+                unselectOption = "All lists",
+                unselectOptionStr = "All lists",
+                modifier = Modifier.padding(bottom = 8.dp)
             )
+
             LazyColumn(
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -130,25 +147,6 @@ private fun TasksScreen(
                             )
                         }
                     }
-                    Box(
-                        modifier = Modifier
-                            .padding(bottom = 8.dp)
-                            .safeSingleClick {
-                                onAction(TasksScreenAction.CreateTestTask)
-                            }
-                            .background(
-                                color = ColorCian,
-                                shape = CircleShape
-                            )
-                            .padding(vertical = 4.dp)
-                            .fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "Create new test task",
-                            style = MaterialTheme.typography.headlineMedium
-                        )
-                    }
                 }
                 itemsIndexed(
                     items = state.groupedTasks,
@@ -206,7 +204,8 @@ private fun TasksScreenPreview() {
         TasksScreen(
             state = TasksScreenState(
                 groupedTasks = groupedTasks,
-                lists = lists
+                lists = lists,
+                filteringList = "List 1"
             ),
             onCreateTaskClicked = {},
             onAction = {}
