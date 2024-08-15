@@ -125,7 +125,8 @@ private fun TasksScreenPreview() {
         tasks.add(
             Task(
                 id = tasks.count(),
-                name = "Some task name",
+                title = "Some task title",
+                description = "Some task description",
                 startTime = Calendar.getInstance().timeInMillis + 1000 * 60 * tasks.count() + 2,
                 endTime = Calendar.getInstance().timeInMillis + 1000 * 60 * tasks.count() + 5,
                 list = "Test list ${tasks.count()}".also { lists.add(it) }

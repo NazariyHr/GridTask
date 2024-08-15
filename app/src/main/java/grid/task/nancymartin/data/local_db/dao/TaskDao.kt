@@ -18,6 +18,6 @@ interface TaskDao {
     @Query("select * from taskentity ORDER BY startTime desc")
     fun getAllFlow(): Flow<List<TaskEntity>>
 
-    @Query("select distinct list from taskentity order by id desc")
+    @Query("select distinct list from taskentity where list != '' order by id desc")
     fun getAllListsFlow(): Flow<List<String>>
 }

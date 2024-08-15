@@ -44,7 +44,12 @@ fun TaskItem(
             modifier = Modifier.fillMaxWidth()
         )
         Text(
-            text = task.name,
+            text = task.title,
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Text(
+            text = task.description,
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.fillMaxWidth()
         )
@@ -72,7 +77,8 @@ private fun TaskItemPreview() {
     TaskItem(
         task = Task(
             id = 0,
-            name = "Some task name",
+            title = "Some task title",
+            description = "Some task description",
             startTime = Calendar.getInstance().timeInMillis + 1000 * 60 * 2,
             endTime = Calendar.getInstance().timeInMillis + 1000 * 60 * 5,
             list = "Test list 1"

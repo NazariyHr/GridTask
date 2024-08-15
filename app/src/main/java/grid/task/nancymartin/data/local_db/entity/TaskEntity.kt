@@ -8,7 +8,8 @@ import grid.task.nancymartin.domain.model.Task
 data class TaskEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val name: String,
+    val title: String,
+    val description: String,
     val startTime: Long,
     val endTime: Long,
     val list: String
@@ -16,18 +17,20 @@ data class TaskEntity(
 
 fun TaskEntity.toTask(): Task {
     return Task(
-        id,
-        name,
-        startTime,
-        endTime,
-        list
+        id = id,
+        title = title,
+        description = description,
+        startTime = startTime,
+        endTime = endTime,
+        list = list
     )
 }
 
 fun Task.toRateEntity(): TaskEntity {
     return TaskEntity(
         id = id,
-        name = name,
+        title = title,
+        description = description,
         startTime = startTime,
         endTime = endTime,
         list = list

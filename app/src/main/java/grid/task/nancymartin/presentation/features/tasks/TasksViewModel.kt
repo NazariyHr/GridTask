@@ -60,7 +60,8 @@ class TasksViewModel @Inject constructor(
                     createTaskUseCase.invoke(
                         Task(
                             id = 0,
-                            name = "Some task name",
+                            title = "Some task title",
+                            description = "Some task description",
                             startTime = Calendar.getInstance().timeInMillis + 1000 * 60 * 2,
                             endTime = Calendar.getInstance().timeInMillis + 1000 * 60 * 5,
                             list = "Test list ${stateValue.lists.count()}"

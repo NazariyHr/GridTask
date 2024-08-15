@@ -5,5 +5,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CreateTaskScreenState(
-    val title: String = "Create Task"
+    val lists: List<String> = emptyList()
 ) : Parcelable
