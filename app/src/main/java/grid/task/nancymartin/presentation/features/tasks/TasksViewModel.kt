@@ -6,14 +6,15 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import grid.task.nancymartin.domain.model.Task
 import grid.task.nancymartin.domain.use_case.ChangeTaskIsDoneUseCase
-import grid.task.nancymartin.domain.use_case.CreateTaskUseCase
 import grid.task.nancymartin.domain.use_case.DeleteTaskUseCase
 import grid.task.nancymartin.domain.use_case.GetListsFlowUseCase
 import grid.task.nancymartin.domain.use_case.GetTasksFlowUseCase
 import grid.task.nancymartin.presentation.features.tasks.ui_model.GroupedTasks
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
@@ -23,7 +24,6 @@ class TasksViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     getTasksFlowUseCase: GetTasksFlowUseCase,
     getListsFlowUseCase: GetListsFlowUseCase,
-    private val createTaskUseCase: CreateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val changeTaskIsDoneUseCase: ChangeTaskIsDoneUseCase
 ) : ViewModel() {
@@ -39,6 +39,10 @@ class TasksViewModel @Inject constructor(
             return savedStateHandle.get<TasksScreenState>(STATE_KEY)!!
         }
     val state = savedStateHandle.getStateFlow(STATE_KEY, TasksScreenState())
+
+    private val _events = Channel<TasksScreenEvent>()
+    val events = _events.receiveAsFlow()
+
     private val filteringList: MutableStateFlow<String?> = MutableStateFlow(null)
 
     init {
@@ -119,12 +123,44 @@ class TasksViewModel @Inject constructor(
             }
 
             stateValue = stateValue.copy(
+                tasks = tasks,
                 groupedTasks = groupedTasks,
                 lists = lists,
                 filteringList = filteringList
             )
         }
             .launchIn(viewModelScope)
+        initCalendarSelector()
+    }
+
+    private fun initCalendarSelector() {
+        viewModelScope.launch {
+            val today = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+            val todayMillis = today.timeInMillis
+            val dayAfterTwoYearsMillis = today.apply { add(Calendar.YEAR, 2) }.timeInMillis
+
+            val days = run {
+                today.add(Calendar.YEAR, -3)
+                val days = mutableListOf<Long>()
+                while (today.timeInMillis < dayAfterTwoYearsMillis) {
+                    days.add(today.timeInMillis)
+                    today.add(Calendar.DAY_OF_YEAR, 1)
+                }
+                days
+            }
+
+            stateValue = stateValue.copy(
+                selectedDayForCalendar = todayMillis,
+                daysForCalendarSelector = days
+            )
+
+            _events.send(TasksScreenEvent.ScrollToDay(todayMillis, withAnimation = false))
+        }
     }
 
     fun onAction(action: TasksScreenAction) {
@@ -144,6 +180,34 @@ class TasksViewModel @Inject constructor(
             is TasksScreenAction.ChangeFilteringList -> {
                 viewModelScope.launch {
                     filteringList.emit(action.list)
+                }
+            }
+
+            is TasksScreenAction.ChangeDisplayState -> {
+                stateValue = stateValue.copy(
+                    displayState = action.displayState
+                )
+            }
+
+            is TasksScreenAction.ChangeSelectedDay -> {
+                stateValue = stateValue.copy(
+                    selectedDayForCalendar = action.selectedDay
+                )
+            }
+
+            TasksScreenAction.SetCurrentDaySelected -> {
+                viewModelScope.launch {
+                    val today = Calendar.getInstance().apply {
+                        set(Calendar.HOUR_OF_DAY, 0)
+                        set(Calendar.MINUTE, 0)
+                        set(Calendar.SECOND, 0)
+                        set(Calendar.MILLISECOND, 0)
+                    }
+                    val todayMillis = today.timeInMillis
+                    stateValue = stateValue.copy(
+                        selectedDayForCalendar = todayMillis
+                    )
+                    _events.send(TasksScreenEvent.ScrollToDay(todayMillis, withAnimation = true))
                 }
             }
         }
