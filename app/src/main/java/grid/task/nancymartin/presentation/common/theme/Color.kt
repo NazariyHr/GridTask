@@ -20,6 +20,7 @@ val ColorCianLight = Color(123, 212, 225)
 val ColorCian = Color(82, 191, 206)
 val ColorCianDarker = Color(49, 167, 184)
 val ColorCianDark = Color(19, 143, 160)
+val ColorGreenLight = Color(94, 221, 144, 255)
 
 val ColorMainBg = ColorWhite
 

@@ -61,7 +61,8 @@ import grid.task.nancymartin.presentation.common.theme.GridTaskTheme
 import grid.task.nancymartin.presentation.common.theme.TextColorForHeadLinesAndDisplay
 import grid.task.nancymartin.presentation.features.tasks.components.DaySelectorItem
 import grid.task.nancymartin.presentation.features.tasks.components.GroupedTasksItem
-import grid.task.nancymartin.presentation.features.tasks.components.TasksCalendar
+import grid.task.nancymartin.presentation.features.tasks.components.TaskInfoDialog
+import grid.task.nancymartin.presentation.features.tasks.components.calendar.TasksCalendar
 import grid.task.nancymartin.presentation.features.tasks.ui_model.GroupedTasks
 import grid.task.nancymartin.presentation.features.tasks.ui_model.TaskDisplayState
 import grid.task.nancymartin.presentation.navigation.Screen
@@ -98,6 +99,9 @@ private fun TasksScreen(
     val d = LocalDensity.current
     val daysScrollState: LazyListState = rememberLazyListState()
     val scope = rememberCoroutineScope()
+    var clickedTask by remember {
+        mutableStateOf<Task?>(null)
+    }
 
     ObserveAsEvent(flow = events) { event ->
         when (event) {
@@ -304,6 +308,9 @@ private fun TasksScreen(
                         TasksCalendar(
                             tasks = state.tasks,
                             selectedDay = state.selectedDayForCalendar,
+                            onTaskClicked = { task ->
+                                clickedTask = task
+                            },
                             modifier = Modifier
                                 .weight(1f)
                                 .padding(bottom = 8.dp)
@@ -368,6 +375,22 @@ private fun TasksScreen(
                 }
             }
         }
+
+        if (clickedTask != null) {
+            TaskInfoDialog(
+                task = clickedTask!!,
+                onDismiss = {
+                    clickedTask = null
+                },
+                onDeleteClicked = { task ->
+                    onAction(TasksScreenAction.DeleteTask(task))
+                    clickedTask = null
+                },
+                onDoneChange = { task, isDone ->
+                    onAction(TasksScreenAction.ChangeTaskIsDone(task, isDone))
+                }
+            )
+        }
     }
 }
 
@@ -416,30 +439,30 @@ private fun TasksScreenListDisplayPreview() {
 @Preview
 @Composable
 private fun TasksScreenCalendarDisplayPreview() {
-    val groupedTasks = mutableListOf<GroupedTasks>()
     val lists = mutableListOf<String>()
-    repeat(2) {
-        val tasks = mutableListOf<Task>()
-        repeat((groupedTasks.count() + 1)) {
-            tasks.add(
-                Task(
-                    id = tasks.count(),
-                    title = "Some task title",
-                    description = "Some task description",
-                    startTime = Calendar.getInstance().timeInMillis + 1000 * 60 * tasks.count() + 2,
-                    endTime = Calendar.getInstance().timeInMillis + 1000 * 60 * tasks.count() + 5,
-                    list = "Test list ${tasks.count()}".also { lists.add(it) },
-                    done = false
-                )
-            )
-        }
-        groupedTasks.add(
-            GroupedTasks(
-                title = "day ${groupedTasks.count()}",
-                tasks = tasks
-            )
+    val tasks = mutableListOf<Task>()
+    tasks.add(
+        Task(
+            id = tasks.count(),
+            title = "Some task title",
+            description = "Some task description",
+            startTime = Calendar.getInstance().timeInMillis - 1000 * 60 * 60 * 3,
+            endTime = Calendar.getInstance().timeInMillis - 1000 * 60 * 60 * 1,
+            list = "Test list ${tasks.count()}".also { lists.add(it) },
+            done = false
         )
-    }
+    )
+    tasks.add(
+        Task(
+            id = tasks.count(),
+            title = "Some task title",
+            description = "Some task description",
+            startTime = Calendar.getInstance().timeInMillis + 1000 * 60 * 60 * 1,
+            endTime = Calendar.getInstance().timeInMillis + 1000 * 60 * 60 * 3,
+            list = "Test list ${tasks.count()}".also { lists.add(it) },
+            done = false
+        )
+    )
 
     val today = Calendar.getInstance().apply {
         set(Calendar.HOUR_OF_DAY, 0)
@@ -462,7 +485,7 @@ private fun TasksScreenCalendarDisplayPreview() {
     GridTaskTheme {
         TasksScreen(
             state = TasksScreenState(
-                groupedTasks = groupedTasks,
+                tasks = tasks,
                 lists = lists,
                 filteringList = "List 1",
                 displayState = TaskDisplayState.CALENDAR,

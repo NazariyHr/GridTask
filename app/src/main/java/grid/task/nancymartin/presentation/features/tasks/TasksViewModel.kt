@@ -9,6 +9,7 @@ import grid.task.nancymartin.domain.use_case.ChangeTaskIsDoneUseCase
 import grid.task.nancymartin.domain.use_case.DeleteTaskUseCase
 import grid.task.nancymartin.domain.use_case.GetListsFlowUseCase
 import grid.task.nancymartin.domain.use_case.GetTasksFlowUseCase
+import grid.task.nancymartin.domain.utils.getToday
 import grid.task.nancymartin.presentation.features.tasks.ui_model.GroupedTasks
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -53,7 +54,7 @@ class TasksViewModel @Inject constructor(
         ) { tasks, lists, filteringList ->
             val groupedTasks = mutableListOf<GroupedTasks>()
 
-            val currTimeCalendar = Calendar.getInstance()
+            val currTimeCalendar = getToday()
             val currYear = currTimeCalendar.get(Calendar.YEAR)
             val currMonth = currTimeCalendar.get(Calendar.MONTH)
             val currWeek = currTimeCalendar.get(Calendar.WEEK_OF_MONTH)
@@ -123,7 +124,7 @@ class TasksViewModel @Inject constructor(
             }
 
             stateValue = stateValue.copy(
-                tasks = tasks,
+                tasks = filteredByList,
                 groupedTasks = groupedTasks,
                 lists = lists,
                 filteringList = filteringList
