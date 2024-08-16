@@ -5,7 +5,6 @@ import android.view.ViewTreeObserver
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalView
@@ -29,25 +28,4 @@ fun keyboardIsOpened(): State<Boolean> {
     }
 
     return keyboardState
-}
-
-@Composable
-fun rememberKeyboardHeight(): State<Int> {
-    val kHeight = rememberSaveable { mutableIntStateOf(0) }
-    val view = LocalView.current
-    DisposableEffect(view) {
-        val onGlobalListener = ViewTreeObserver.OnGlobalLayoutListener {
-            val rect = Rect()
-            view.getWindowVisibleDisplayFrame(rect)
-            val screenHeight = view.rootView.height
-            val keypadHeight = screenHeight - rect.bottom
-            kHeight.intValue = keypadHeight
-        }
-        view.viewTreeObserver.addOnGlobalLayoutListener(onGlobalListener)
-        onDispose {
-            view.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalListener)
-        }
-    }
-
-    return kHeight
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import grid.task.nancymartin.R
 import grid.task.nancymartin.domain.model.Task
 import grid.task.nancymartin.domain.use_case.ChangeTaskIsDoneUseCase
 import grid.task.nancymartin.domain.use_case.DeleteTaskUseCase
@@ -99,28 +100,28 @@ class TasksViewModel @Inject constructor(
             }
 
             if (previousTasks.isNotEmpty()) {
-                groupedTasks.add(GroupedTasks("Previous", previousTasks))
+                groupedTasks.add(GroupedTasks(R.string.previous, previousTasks))
             }
             if (toDaysTasks.isNotEmpty()) {
-                groupedTasks.add(GroupedTasks("Today", toDaysTasks))
+                groupedTasks.add(GroupedTasks(R.string.today, toDaysTasks))
             }
             if (tomorrowTasks.isNotEmpty()) {
-                groupedTasks.add(GroupedTasks("Tomorrow", tomorrowTasks))
+                groupedTasks.add(GroupedTasks(R.string.tomorrow, tomorrowTasks))
             }
             if (thisWeekTasks.isNotEmpty()) {
-                groupedTasks.add(GroupedTasks("This week", thisWeekTasks))
+                groupedTasks.add(GroupedTasks(R.string.this_week, thisWeekTasks))
             }
             if (thisMonthTasks.isNotEmpty()) {
-                groupedTasks.add(GroupedTasks("This month", thisMonthTasks))
+                groupedTasks.add(GroupedTasks(R.string.this_month, thisMonthTasks))
             }
             if (thisYearTasks.isNotEmpty()) {
-                groupedTasks.add(GroupedTasks("This year", thisYearTasks))
+                groupedTasks.add(GroupedTasks(R.string.this_year, thisYearTasks))
             }
             if (otherYearsTasks.isNotEmpty()) {
-                groupedTasks.add(GroupedTasks("Other years", otherYearsTasks))
+                groupedTasks.add(GroupedTasks(R.string.other_years, otherYearsTasks))
             }
             if (doneTasks.isNotEmpty()) {
-                groupedTasks.add(GroupedTasks("Done tasks", doneTasks))
+                groupedTasks.add(GroupedTasks(R.string.done_tasks, doneTasks))
             }
 
             stateValue = stateValue.copy(

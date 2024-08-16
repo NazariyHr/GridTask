@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="OK">OK</string>
+    <string name="cancel">Бас тарту</string>
+    <string name="start_date">Басталу күні</string>
+    <string name="end_date">Аяқталу күні</string>
+    <string name="start_time">Басталу уақыты</string>
+    <string name="end_time">Аяқталу уақыты</string>
+    <string name="add_new_task">Жаңа тапсырма қосыңыз</string>
+    <string name="title">Тақырып</string>
+    <string name="description">Сипаттама</string>
+    <string name="list">Тізім</string>
+    <string name="save">Сақтау</string>
+    <string name="err_enter_title">Кейбір тақырып енгізіңіз</string>
+    <string name="err_enter_description">Сипаттаманы енгізіңіз</string>
+    <string name="err_enter_dates">Басталу және аяқталу күні мен уақытын енгізіңіз</string>
+    <string name="err_enter_start_date">Басталу күні мен уақытын енгізіңіз</string>
+    <string name="err_enter_end_date">Аяқталу күні мен уақытын енгізіңіз</string>
+    <string name="err_start_date_must_be_before_end">Басталу күні мен уақыты аяқталу күні мен уақытынан бұрын болуы керек</string>
+    <string name="start_at">Бастау уақыты:</string>
+    <string name="end_at">Аяқталу уақыты:</string>
+    <string name="remove">Жою</string>
+    <string name="all_lists">Барлық тізімдер</string>
+    <string name="set_today">Орнатыңыз</string>
+    <string name="today">Бүгін</string>
+    <string name="previous">Алдыңғы</string>
+    <string name="tomorrow">Ертең</string>
+    <string name="this_week">Осы аптада</string>
+    <string name="this_month">Осы айда</string>
+    <string name="this_year">Бұл жылы</string>
+    <string name="other_years">Басқа жылдар</string>
+    <string name="done_tasks">Орындалған тапсырмалар</string>
+</resources>

@@ -8,7 +8,9 @@ import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import grid.task.nancymartin.R
 import grid.task.nancymartin.presentation.common.theme.GridTaskTheme
 import java.util.Calendar
 
@@ -55,12 +57,12 @@ fun TimePickerDialog(
         onDismissRequest = onDismiss,
         dismissButton = {
             TextButton(onClick = { onDismiss() }) {
-                Text("Dismiss")
+                Text(stringResource(id = R.string.cancel))
             }
         },
         confirmButton = {
             TextButton(onClick = { onConfirm() }) {
-                Text("OK")
+                Text(stringResource(id = R.string.OK))
             }
         },
         text = { content() }

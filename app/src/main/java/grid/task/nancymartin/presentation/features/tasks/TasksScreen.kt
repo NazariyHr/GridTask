@@ -1,5 +1,7 @@
 package grid.task.nancymartin.presentation.features.tasks
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,10 +42,13 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.inset
 import androidx.compose.ui.layout.onPlaced
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -78,6 +83,7 @@ fun TasksScreenRoot(
     viewModel: TasksViewModel =
         hiltViewModel()
 ) {
+    val context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
     TasksScreen(
         state = state,
@@ -85,7 +91,14 @@ fun TasksScreenRoot(
         onCreateTaskClicked = {
             navController.navigate(Screen.CreateTask)
         },
-        onAction = viewModel::onAction
+        onAction = viewModel::onAction,
+        onPrivacyPolicyClicked = {
+            val browserIntent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(ContextCompat.getString(context, R.string.privacy_policy))
+            )
+            context.startActivity(browserIntent)
+        }
     )
 }
 
@@ -94,7 +107,8 @@ private fun TasksScreen(
     state: TasksScreenState,
     events: Flow<TasksScreenEvent>,
     onCreateTaskClicked: () -> Unit,
-    onAction: (TasksScreenAction) -> Unit
+    onAction: (TasksScreenAction) -> Unit,
+    onPrivacyPolicyClicked: () -> Unit
 ) {
     val d = LocalDensity.current
     val daysScrollState: LazyListState = rememberLazyListState()
@@ -126,25 +140,56 @@ private fun TasksScreen(
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            // Filtering list
-            SelectableTextField(
-                selectedValueStr = state.filteringList,
-                label = "",
-                options = state.lists,
-                onValueChange = { newValue ->
-                    onAction(TasksScreenAction.ChangeFilteringList(newValue))
-                },
-                optionsBackgroundColor = ColorDarkContainers,
-                optionContent = { option ->
-                    Text(
-                        text = option,
-                        style = MaterialTheme.typography.bodyLarge
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            ) {
+                var filterListHeight by remember {
+                    mutableStateOf(0.dp)
+                }
+                // Filtering list
+                SelectableTextField(
+                    selectedValueStr = state.filteringList,
+                    label = "",
+                    options = state.lists,
+                    onValueChange = { newValue ->
+                        onAction(TasksScreenAction.ChangeFilteringList(newValue))
+                    },
+                    optionsBackgroundColor = ColorDarkContainers,
+                    optionContent = { option ->
+                        Text(
+                            text = option,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    },
+                    unselectOption = stringResource(id = R.string.all_lists),
+                    unselectOptionStr = stringResource(id = R.string.all_lists),
+                    modifier = Modifier
+                        .onPlaced {
+                            filterListHeight = with(d) { it.size.height.toDp() }
+                        }
+                        .weight(1f)
+                )
+
+                Box(
+                    modifier = Modifier
+                        .padding(start = 12.dp)
+                        .height(filterListHeight)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_privacy_policy),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(Color(3, 53, 60, 255)),
+                        modifier = Modifier
+                            .safeSingleClick {
+                                onPrivacyPolicyClicked()
+                            }
+                            .size(32.dp)
+                            .align(Alignment.Center)
                     )
-                },
-                unselectOption = "All lists",
-                unselectOptionStr = "All lists",
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
+                }
+            }
 
             // Display mode selector and add task button
             Row(
@@ -263,7 +308,7 @@ private fun TasksScreen(
                                 .size(24.dp)
                         )
                         Text(
-                            text = "Add new task",
+                            text = stringResource(id = R.string.add_new_task),
                             style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier.align(Alignment.CenterVertically)
                         )
@@ -365,7 +410,7 @@ private fun TasksScreen(
                                     .padding(horizontal = 16.dp)
                             ) {
                                 Text(
-                                    text = "Set today",
+                                    text = stringResource(id = R.string.set_today),
                                     style = MaterialTheme.typography.bodyMedium,
                                     modifier = Modifier.align(Alignment.Center)
                                 )
@@ -416,7 +461,7 @@ private fun TasksScreenListDisplayPreview() {
         }
         groupedTasks.add(
             GroupedTasks(
-                title = "day ${groupedTasks.count()}",
+                title = R.string.today,
                 tasks = tasks
             )
         )
@@ -431,7 +476,8 @@ private fun TasksScreenListDisplayPreview() {
             ),
             events = flowOf(),
             onCreateTaskClicked = {},
-            onAction = {}
+            onAction = {},
+            onPrivacyPolicyClicked = {}
         )
     }
 }
@@ -494,7 +540,8 @@ private fun TasksScreenCalendarDisplayPreview() {
             ),
             events = flowOf(),
             onCreateTaskClicked = {},
-            onAction = {}
+            onAction = {},
+            onPrivacyPolicyClicked = {}
         )
     }
 }

@@ -49,12 +49,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onPlaced
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -96,6 +99,7 @@ private fun CreateTaskScreen(
     onAction: (CreateTaskScreenAction) -> Unit,
     navigateUp: () -> Unit
 ) {
+    val context = LocalContext.current
     val d = LocalDensity.current
     val focusManager = LocalFocusManager.current
     val keyboardIsOpened by keyboardIsOpened()
@@ -246,7 +250,7 @@ private fun CreateTaskScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "Add new task",
+                    text = stringResource(id = R.string.add_new_task),
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier.align(Alignment.Center)
                 )
@@ -283,7 +287,7 @@ private fun CreateTaskScreen(
                 maxLines = 2,
                 label = {
                     Text(
-                        text = "Title",
+                        text = stringResource(id = R.string.title),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 },
@@ -312,7 +316,7 @@ private fun CreateTaskScreen(
                 maxLines = 10,
                 label = {
                     Text(
-                        text = "Description",
+                        text = stringResource(id = R.string.description),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 },
@@ -338,7 +342,7 @@ private fun CreateTaskScreen(
                     maxLines = 10,
                     label = {
                         Text(
-                            text = "Start date",
+                            text = stringResource(id = R.string.start_date),
                             style = MaterialTheme.typography.bodyMedium
                         )
                     },
@@ -361,7 +365,7 @@ private fun CreateTaskScreen(
                     maxLines = 10,
                     label = {
                         Text(
-                            text = "Start time",
+                            text = stringResource(id = R.string.start_time),
                             style = MaterialTheme.typography.bodyMedium
                         )
                     },
@@ -390,7 +394,7 @@ private fun CreateTaskScreen(
                     maxLines = 10,
                     label = {
                         Text(
-                            text = "End date",
+                            text = stringResource(id = R.string.end_date),
                             style = MaterialTheme.typography.bodyMedium
                         )
                     },
@@ -413,7 +417,7 @@ private fun CreateTaskScreen(
                     maxLines = 10,
                     label = {
                         Text(
-                            text = "End time",
+                            text = stringResource(id = R.string.end_time),
                             style = MaterialTheme.typography.bodyMedium
                         )
                     },
@@ -468,7 +472,7 @@ private fun CreateTaskScreen(
                 maxLines = 10,
                 label = {
                     Text(
-                        text = "List",
+                        text = stringResource(id = R.string.list),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 },
@@ -480,28 +484,28 @@ private fun CreateTaskScreen(
                 onClick = {
                     var validationPassed = true
                     if (title.isEmpty()) {
-                        titleError = "Please enter some title"
+                        titleError = ContextCompat.getString(context ,R.string.err_enter_title)
                         validationPassed = false
                     }
                     if (description.isEmpty()) {
-                        descriptionError = "Please enter description"
+                        descriptionError = ContextCompat.getString(context ,R.string.err_enter_description)
                         validationPassed = false
                     }
                     if (selectedStartDateAndTime == null && selectedEndDateAndTime == null) {
-                        timeError = "Please enter start and end date and time"
+                        timeError = ContextCompat.getString(context ,R.string.err_enter_dates)
                         validationPassed = false
                     } else if (selectedStartDateAndTime == null || selectedEndDateAndTime == null) {
                         if (selectedStartDateAndTime == null) {
-                            timeError = "Please enter start date and time"
+                            timeError = ContextCompat.getString(context ,R.string.err_enter_start_date)
                             validationPassed = false
                         }
                         if (selectedEndDateAndTime == null) {
-                            timeError = "Please enter end date and time"
+                            timeError = ContextCompat.getString(context ,R.string.err_enter_end_date)
                             validationPassed = false
                         }
                     } else {
                         if (selectedStartDateAndTime!! >= selectedEndDateAndTime!!) {
-                            timeError = "Start date and time must be before end date and time"
+                            timeError = ContextCompat.getString(context ,R.string.err_start_date_must_be_before_end)
                             validationPassed = false
                         }
                     }
@@ -524,7 +528,7 @@ private fun CreateTaskScreen(
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = "Save",
+                    text = stringResource(id = R.string.save),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -532,7 +536,7 @@ private fun CreateTaskScreen(
 
         if (showStartDateDialog) {
             DatePickerModal(
-                title = "Start date",
+                title = stringResource(id = R.string.start_date),
                 onDateSelected = { selectedDateMilliseconds ->
                     startDate = selectedDateMilliseconds
                     timeError = ""
@@ -545,7 +549,7 @@ private fun CreateTaskScreen(
 
         if (showEndDateDialog) {
             DatePickerModal(
-                title = "End date",
+                title = stringResource(id = R.string.end_date),
                 onDateSelected = { selectedDateMilliseconds ->
                     endDate = selectedDateMilliseconds
                     timeError = ""
@@ -558,7 +562,7 @@ private fun CreateTaskScreen(
 
         if (showStartTimeDialog) {
             TimePickerDialogDial(
-                title = "Start time",
+                title = stringResource(id = R.string.start_time),
                 onConfirm = { timePickerState ->
                     startTime = timePickerState.hour to timePickerState.minute
                     timeError = ""
@@ -571,7 +575,7 @@ private fun CreateTaskScreen(
 
         if (showEndTimeDialog) {
             TimePickerDialogDial(
-                title = "End time",
+                title = stringResource(id = R.string.end_time),
                 onConfirm = { timePickerState ->
                     endTime = timePickerState.hour to timePickerState.minute
                     timeError = ""
