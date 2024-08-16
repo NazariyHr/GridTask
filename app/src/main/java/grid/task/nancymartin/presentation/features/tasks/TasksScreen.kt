@@ -68,6 +68,7 @@ import grid.task.nancymartin.presentation.features.tasks.components.DaySelectorI
 import grid.task.nancymartin.presentation.features.tasks.components.GroupedTasksItem
 import grid.task.nancymartin.presentation.features.tasks.components.TaskInfoDialog
 import grid.task.nancymartin.presentation.features.tasks.components.calendar.TasksCalendar
+import grid.task.nancymartin.presentation.features.tasks.ui_model.GroupedTasks
 import grid.task.nancymartin.presentation.features.tasks.ui_model.TaskDisplayState
 import grid.task.nancymartin.presentation.navigation.Screen
 import kotlinx.coroutines.delay
@@ -329,8 +330,7 @@ private fun TasksScreen(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         itemsIndexed(
-                            items = state.groupedTasks,
-                            key = { _, groupedTask -> groupedTask.title }
+                            items = state.groupedTasks
                         ) { index, groupedTask ->
                             val gap = 20.dp
                             GroupedTasksItem(
@@ -448,44 +448,44 @@ private fun TasksScreen(
 @Preview
 @Composable
 private fun TasksScreenListDisplayPreview() {
-//    val groupedTasks = mutableListOf<GroupedTasks>()
-//    val lists = mutableListOf<String>()
-//    repeat(2) {
-//        val tasks = mutableListOf<Task>()
-//        repeat((groupedTasks.count() + 1)) {
-//            tasks.add(
-//                Task(
-//                    id = tasks.count(),
-//                    title = "Some task title",
-//                    description = "Some task description",
-//                    startTime = Calendar.getInstance().timeInMillis + 1000 * 60 * tasks.count() + 2,
-//                    endTime = Calendar.getInstance().timeInMillis + 1000 * 60 * tasks.count() + 5,
-//                    list = "Test list ${tasks.count()}".also { lists.add(it) },
-//                    done = false
-//                )
-//            )
-//        }
-//        groupedTasks.add(
-//            GroupedTasks(
-//                title = R.string.today,
-//                tasks = tasks
-//            )
-//        )
-//    }
-//    GridTaskTheme {
-//        TasksScreen(
-//            state = TasksScreenState(
-//                groupedTasks = groupedTasks,
-//                lists = lists,
-//                filteringList = "List 1",
-//                displayState = TaskDisplayState.LIST
-//            ),
-//            events = flowOf(),
-//            onCreateTaskClicked = {},
-//            onAction = {},
-//            onPrivacyPolicyClicked = {}
-//        )
-//    }
+    val groupedTasks = mutableListOf<GroupedTasks>()
+    val lists = mutableListOf<String>()
+    repeat(2) {
+        val tasks = mutableListOf<Task>()
+        repeat((groupedTasks.count() + 1)) {
+            tasks.add(
+                Task(
+                    id = tasks.count(),
+                    title = "Some task title",
+                    description = "Some task description",
+                    startTime = Calendar.getInstance().timeInMillis + 1000 * 60 * tasks.count() + 2,
+                    endTime = Calendar.getInstance().timeInMillis + 1000 * 60 * tasks.count() + 5,
+                    list = "Test list ${tasks.count()}".also { lists.add(it) },
+                    done = false
+                )
+            )
+        }
+        groupedTasks.add(
+            GroupedTasks(
+                title = R.string.today,
+                tasks = tasks
+            )
+        )
+    }
+    GridTaskTheme {
+        TasksScreen(
+            state = TasksScreenState(
+                groupedTasks = groupedTasks,
+                lists = lists,
+                filteringList = "List 1",
+                displayState = TaskDisplayState.LIST
+            ),
+            events = flowOf(),
+            onCreateTaskClicked = {},
+            onAction = {},
+            onPrivacyPolicyClicked = {}
+        )
+    }
 }
 
 @Preview
