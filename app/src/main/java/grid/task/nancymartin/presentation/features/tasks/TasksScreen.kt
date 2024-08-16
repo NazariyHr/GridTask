@@ -68,7 +68,6 @@ import grid.task.nancymartin.presentation.features.tasks.components.DaySelectorI
 import grid.task.nancymartin.presentation.features.tasks.components.GroupedTasksItem
 import grid.task.nancymartin.presentation.features.tasks.components.TaskInfoDialog
 import grid.task.nancymartin.presentation.features.tasks.components.calendar.TasksCalendar
-import grid.task.nancymartin.presentation.features.tasks.ui_model.GroupedTasks
 import grid.task.nancymartin.presentation.features.tasks.ui_model.TaskDisplayState
 import grid.task.nancymartin.presentation.navigation.Screen
 import kotlinx.coroutines.delay
@@ -195,10 +194,13 @@ private fun TasksScreen(
             Row(
                 modifier = Modifier
                     .padding(vertical = 8.dp)
-                    .fillMaxWidth()
-                    .height(40.dp),
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                var addNewTaskHeight by remember {
+                    mutableStateOf(0.dp)
+                }
+
                 // Mode selector
                 Row(
                     modifier = Modifier
@@ -208,7 +210,7 @@ private fun TasksScreen(
                             shape = CircleShape
                         )
                         .weight(1f)
-                        .fillMaxHeight()
+                        .height(addNewTaskHeight)
                 ) {
                     Box(
                         modifier = Modifier
@@ -228,7 +230,7 @@ private fun TasksScreen(
                             contentDescription = null,
                             modifier = Modifier
                                 .align(Alignment.Center)
-                                .size(24.dp)
+                                .fillMaxHeight()
                         )
                     }
                     Box(
@@ -249,7 +251,7 @@ private fun TasksScreen(
                             contentDescription = null,
                             modifier = Modifier
                                 .align(Alignment.Center)
-                                .size(24.dp)
+                                .fillMaxHeight()
                         )
                     }
                 }
@@ -257,6 +259,9 @@ private fun TasksScreen(
                 // Add new task button
                 Box(
                     modifier = Modifier
+                        .onPlaced {
+                            addNewTaskHeight = with(d) { it.size.height.toDp() }
+                        }
                         .safeSingleClick {
                             onCreateTaskClicked()
                         }
@@ -264,9 +269,8 @@ private fun TasksScreen(
                             color = ColorCian,
                             shape = CircleShape
                         )
-                        .padding(vertical = 4.dp)
-                        .weight(1f)
-                        .fillMaxHeight(),
+                        .padding(vertical = 4.dp, horizontal = 8.dp)
+                        .weight(1f),
                     contentAlignment = Alignment.Center
                 ) {
                     Row {
@@ -310,7 +314,9 @@ private fun TasksScreen(
                         Text(
                             text = stringResource(id = R.string.add_new_task),
                             style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.align(Alignment.CenterVertically)
+                            modifier = Modifier
+                                .padding(start = 4.dp)
+                                .align(Alignment.CenterVertically)
                         )
                     }
                 }
@@ -442,44 +448,44 @@ private fun TasksScreen(
 @Preview
 @Composable
 private fun TasksScreenListDisplayPreview() {
-    val groupedTasks = mutableListOf<GroupedTasks>()
-    val lists = mutableListOf<String>()
-    repeat(2) {
-        val tasks = mutableListOf<Task>()
-        repeat((groupedTasks.count() + 1)) {
-            tasks.add(
-                Task(
-                    id = tasks.count(),
-                    title = "Some task title",
-                    description = "Some task description",
-                    startTime = Calendar.getInstance().timeInMillis + 1000 * 60 * tasks.count() + 2,
-                    endTime = Calendar.getInstance().timeInMillis + 1000 * 60 * tasks.count() + 5,
-                    list = "Test list ${tasks.count()}".also { lists.add(it) },
-                    done = false
-                )
-            )
-        }
-        groupedTasks.add(
-            GroupedTasks(
-                title = R.string.today,
-                tasks = tasks
-            )
-        )
-    }
-    GridTaskTheme {
-        TasksScreen(
-            state = TasksScreenState(
-                groupedTasks = groupedTasks,
-                lists = lists,
-                filteringList = "List 1",
-                displayState = TaskDisplayState.LIST
-            ),
-            events = flowOf(),
-            onCreateTaskClicked = {},
-            onAction = {},
-            onPrivacyPolicyClicked = {}
-        )
-    }
+//    val groupedTasks = mutableListOf<GroupedTasks>()
+//    val lists = mutableListOf<String>()
+//    repeat(2) {
+//        val tasks = mutableListOf<Task>()
+//        repeat((groupedTasks.count() + 1)) {
+//            tasks.add(
+//                Task(
+//                    id = tasks.count(),
+//                    title = "Some task title",
+//                    description = "Some task description",
+//                    startTime = Calendar.getInstance().timeInMillis + 1000 * 60 * tasks.count() + 2,
+//                    endTime = Calendar.getInstance().timeInMillis + 1000 * 60 * tasks.count() + 5,
+//                    list = "Test list ${tasks.count()}".also { lists.add(it) },
+//                    done = false
+//                )
+//            )
+//        }
+//        groupedTasks.add(
+//            GroupedTasks(
+//                title = R.string.today,
+//                tasks = tasks
+//            )
+//        )
+//    }
+//    GridTaskTheme {
+//        TasksScreen(
+//            state = TasksScreenState(
+//                groupedTasks = groupedTasks,
+//                lists = lists,
+//                filteringList = "List 1",
+//                displayState = TaskDisplayState.LIST
+//            ),
+//            events = flowOf(),
+//            onCreateTaskClicked = {},
+//            onAction = {},
+//            onPrivacyPolicyClicked = {}
+//        )
+//    }
 }
 
 @Preview

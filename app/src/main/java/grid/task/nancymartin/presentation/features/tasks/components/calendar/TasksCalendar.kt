@@ -387,7 +387,7 @@ fun TasksCalendar(
                                 val y = taskToDraw.yStartOfTask
 
                                 drawRoundRect(
-                                    color = if(taskToDraw.task.done) ColorGreenLight else ColorCianDarker,
+                                    color = if (taskToDraw.task.done) ColorGreenLight else ColorCianDarker,
                                     topLeft = Offset(
                                         x = x,
                                         y = y
@@ -401,45 +401,49 @@ fun TasksCalendar(
 
                                 val availableHeightForText =
                                     taskToDraw.yEndOfTask - taskToDraw.yStartOfTask - taskContainerInnerPadding * 2
+                                val availableWidthForText =
+                                    taskDrawWidth - taskContainerOutPadding - taskContainerInnerPadding
 
-                                val titleLayoutResult =
-                                    textMeasurer.measure(
-                                        taskToDraw.task.title,
-                                        taskTitleTextStyle,
-                                        constraints = Constraints(
-                                            maxWidth = (taskDrawWidth - taskContainerOutPadding - taskContainerInnerPadding).toInt(),
-                                            maxHeight = availableHeightForText.toInt()
+                                if (availableHeightForText > 0 && availableWidthForText > 0) {
+                                    val titleLayoutResult =
+                                        textMeasurer.measure(
+                                            taskToDraw.task.title,
+                                            taskTitleTextStyle,
+                                            constraints = Constraints(
+                                                maxWidth = availableWidthForText.toInt(),
+                                                maxHeight = availableHeightForText.toInt()
+                                            )
                                         )
-                                    )
 
-                                drawText(
-                                    textMeasurer = textMeasurer,
-                                    text = taskToDraw.task.title,
-                                    style = taskTitleTextStyle,
-                                    topLeft = Offset(
-                                        x = (taskDrawWidth + taskContainerOutPadding) * index + taskContainerInnerPadding,
-                                        y = taskToDraw.yStartOfTask + taskContainerInnerPadding
-                                    ),
-                                    size = Size(
-                                        width = taskDrawWidth - taskContainerOutPadding - taskContainerInnerPadding,
-                                        height = availableHeightForText
-                                    )
-                                )
-                                if (availableHeightForText > (titleLayoutResult.size.height + paddingBetweenTitleAndDescription)) {
                                     drawText(
                                         textMeasurer = textMeasurer,
-                                        text = taskToDraw.task.description,
-                                        style = taskDescriptionTextStyle,
+                                        text = taskToDraw.task.title,
+                                        style = taskTitleTextStyle,
                                         topLeft = Offset(
                                             x = (taskDrawWidth + taskContainerOutPadding) * index + taskContainerInnerPadding,
-                                            y = taskToDraw.yStartOfTask + taskContainerInnerPadding + titleLayoutResult.size.height + paddingBetweenTitleAndDescription
+                                            y = taskToDraw.yStartOfTask + taskContainerInnerPadding
                                         ),
-                                        overflow = TextOverflow.Ellipsis,
                                         size = Size(
                                             width = taskDrawWidth - taskContainerOutPadding - taskContainerInnerPadding,
-                                            height = availableHeightForText - (titleLayoutResult.size.height + paddingBetweenTitleAndDescription) - taskContainerInnerPadding
+                                            height = availableHeightForText
                                         )
                                     )
+                                    if (availableHeightForText > (titleLayoutResult.size.height + paddingBetweenTitleAndDescription)) {
+                                        drawText(
+                                            textMeasurer = textMeasurer,
+                                            text = taskToDraw.task.description,
+                                            style = taskDescriptionTextStyle,
+                                            topLeft = Offset(
+                                                x = (taskDrawWidth + taskContainerOutPadding) * index + taskContainerInnerPadding,
+                                                y = taskToDraw.yStartOfTask + taskContainerInnerPadding + titleLayoutResult.size.height + paddingBetweenTitleAndDescription
+                                            ),
+                                            overflow = TextOverflow.Ellipsis,
+                                            size = Size(
+                                                width = taskDrawWidth - taskContainerOutPadding - taskContainerInnerPadding,
+                                                height = availableHeightForText - (titleLayoutResult.size.height + paddingBetweenTitleAndDescription) - taskContainerInnerPadding
+                                            )
+                                        )
+                                    }
                                 }
                             }
                     }
