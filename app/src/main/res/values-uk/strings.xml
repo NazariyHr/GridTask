@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="OK">OK</string>
+    <string name="cancel">Скасувати</string>
+    <string name="start_date">Дата початку</string>
+    <string name="end_date">Кінцева дата</string>
+    <string name="start_time">Час початку</string>
+    <string name="end_time">Час закінчення</string>
+    <string name="add_new_task">Додати нове завдання</string>
+    <string name="title">Назва</string>
+    <string name="description">Опис</string>
+    <string name="list">Список</string>
+    <string name="save">Зберегти</string>
+    <string name="err_enter_title">Будь ласка, введіть назву</string>
+    <string name="err_enter_description">Будь ласка, введіть опис</string>
+    <string name="err_enter_dates">Будь ласка, введіть початкову та кінцеву дату та час</string>
+    <string name="err_enter_start_date">Будь ласка, введіть дату та час початку</string>
+    <string name="err_enter_end_date">Будь ласка, введіть кінцеву дату та час</string>
+    <string name="err_start_date_must_be_before_end">Дата й час початку мають передувати даті й часу завершення</string>
+    <string name="start_at">Початок о:</string>
+    <string name="end_at">Кінець о:</string>
+    <string name="remove">Видалити</string>
+    <string name="all_lists">Всі списки</string>
+    <string name="set_today">Сьогодні</string>
+    <string name="today">Сьогодні</string>
+    <string name="previous">Попередні</string>
+    <string name="tomorrow">Завтра</string>
+    <string name="this_week">Цього тижня</string>
+    <string name="this_month">Цього місяця</string>
+    <string name="this_year">Цього року</string>
+    <string name="other_years">Інші роки</string>
+    <string name="done_tasks">Виконані завдання</string>
+</resources>

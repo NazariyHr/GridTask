@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="OK">OK</string>
+    <string name="cancel">Адмяніць</string>
+    <string name="start_date">Дата пачатку</string>
+    <string name="end_date">Дата заканчэння</string>
+    <string name="start_time">Час пачатку</string>
+    <string name="end_time">Час заканчэння</string>
+    <string name="add_new_task">Дадаць новую задачу</string>
+    <string name="title">Назва</string>
+    <string name="description">Апісанне</string>
+    <string name="list">Спіс</string>
+    <string name="save">Захаваць</string>
+    <string name="err_enter_title">Калі ласка, увядзіце назву</string>
+    <string name="err_enter_description">Калі ласка, увядзіце апісанне</string>
+    <string name="err_enter_dates">Калі ласка, увядзіце дату і час пачатку і заканчэння</string>
+    <string name="err_enter_start_date">Калі ласка, увядзіце дату і час пачатку</string>
+    <string name="err_enter_end_date">Калі ласка, увядзіце дату і час заканчэння</string>
+    <string name="err_start_date_must_be_before_end">Дата і час пачатку павінны быць перад датай і часам заканчэння</string>
+    <string name="start_at">Пачаць у:</string>
+    <string name="end_at">Канец у:</string>
+    <string name="remove">Выдаліць</string>
+    <string name="all_lists">Усе спісы</string>
+    <string name="set_today">Сёння</string>
+    <string name="today">Сёння</string>
+    <string name="previous">Папярэдні</string>
+    <string name="tomorrow">Заўтра</string>
+    <string name="this_week">На гэтым тыдні</string>
+    <string name="this_month">Гэты месяц</string>
+    <string name="this_year">Гэты год</string>
+    <string name="other_years">Іншыя гады</string>
+    <string name="done_tasks">Выкананыя задачы</string>
+</resources>
